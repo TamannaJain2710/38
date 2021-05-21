@@ -2,7 +2,7 @@ var PLAY = 2;
 var END = 0;
 var LOAD = 1;
 var gameState = LOAD;
-
+var lives = 5;
 var trex, trex_running, trex_collided;
 var ground, invisibleGround, groundImage;
 
@@ -74,9 +74,11 @@ function draw() {
   background(255);
   text("Highest Score: " + localStorage["HighestScore"],350,50)
   text("Score: "+ score, 500,50);
+  text("Lives: " + lives, 250,50);
   if (gameState===LOAD){
     camera.x= 300;
     text("press s to start", 300,100);
+    text("You have 5 lives. As you will touch any obstracle your one live would be detected ", 100,120);
     ground.velocityX =0;
     if(keyDown(83)){
       gameState = PLAY;
@@ -103,7 +105,13 @@ function draw() {
   
     if(obstaclesGroup.isTouching(trex)){
         camera.x = 300;
-        gameState = END;
+        lives = lives-1;
+        text("-1 Live",300,100);
+        text(lives + "lives left", 300,120)
+    }
+
+    if(lives === 0){
+      gameState= END;
     }
   }
   else if (gameState === END) {
@@ -186,6 +194,7 @@ function spawnObstacles() {
 }
 
 function reset(){
+  lives = 5;
   gameState = PLAY;
   gameOver.visible = false;
   restart.visible = false;
