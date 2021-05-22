@@ -102,14 +102,17 @@ function draw() {
     trex.collide(invisibleGround);
     spawnClouds();
     spawnObstacles();
-  
-    if(obstaclesGroup.isTouching(trex)){
-        camera.x = 300;
-        lives = lives-1;
-        text("-1 Live",300,100);
-        text(lives + "lives left", 300,120)
+    
+    if(trex.isTouching(obstaclesGroup)){
+      camera.x = 300;
+      trex.x = 50;
+      trex.y = 180;
+      obstaclesGroup.destroyEach();
+      lives = lives - 1
+      text("-1 Live",300,100);
+      text(lives + "lives left", 300,120)
     }
-
+    
     if(lives === 0){
       gameState= END;
     }
